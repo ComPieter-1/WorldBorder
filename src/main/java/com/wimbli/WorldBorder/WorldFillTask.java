@@ -249,7 +249,8 @@ public class WorldFillTask implements Runnable
 			if (!chunkOnUnloadPreventionList(unload.x, unload.z))
 			{
 				world.setChunkForceLoaded(unload.x, unload.z, false);
-				world.unloadChunkRequest(unload.x, unload.z);
+				// this causes severe TPS loss by forcibly unloading chunks - instead, let server unload them naturally
+				//world.unloadChunkRequest(unload.x, unload.z);
 			}
 		}
 
