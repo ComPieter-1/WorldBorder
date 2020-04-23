@@ -1,8 +1,8 @@
 name: WorldBorder
 author: Brettflan
 description: Efficient, feature-rich plugin for limiting the size of your worlds.
-version: 1.9.10 (beta)
-api-version: 1.13
+version: 1.10.0 (beta)
+api-version: 1.15
 main: com.wimbli.WorldBorder.WorldBorder
 softdepend:
   - dynmap
