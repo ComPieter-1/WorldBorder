@@ -19,9 +19,9 @@ import com.wimbli.WorldBorder.cmd.*;
 public class WBCommand implements CommandExecutor
 {
 	// map of all sub-commands with the command name (string) for quick reference
-	public Map<String, WBCmd> subCommands = new LinkedHashMap<String, WBCmd>();
+	public Map<String, WBCmd> subCommands = new LinkedHashMap<>();
 	// ref. list of the commands which can have a world name in front of the command itself (ex. /wb _world_ radius 100)
-	private Set<String> subCommandsWithWorldNames = new LinkedHashSet<String>();
+	private final Set<String> subCommandsWithWorldNames = new LinkedHashSet<>();
 
 	// constructor
 	public WBCommand ()
@@ -151,7 +151,7 @@ public class WBCommand implements CommandExecutor
 	private List<String> concatenateQuotedWorldName(String[] split)
 	{
 		wasWorldQuotation = false;
-		List<String> args = new ArrayList<String>(Arrays.asList(split));
+		List<String> args = new ArrayList<>(Arrays.asList(split));
 
 		int startIndex = -1;
 		for (int i = 0; i < args.size(); i++)
@@ -173,7 +173,7 @@ public class WBCommand implements CommandExecutor
 		}
 		else
 		{
-			List<String> concat = new ArrayList<String>(args);
+			List<String> concat = new ArrayList<>(args);
 			Iterator<String> concatI = concat.iterator();
 
 			// skip past any parameters in front of the one we're starting on

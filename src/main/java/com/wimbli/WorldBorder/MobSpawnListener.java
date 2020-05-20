@@ -15,8 +15,7 @@ public class MobSpawnListener implements Listener
 	public void onCreatureSpawn(CreatureSpawnEvent event)
 	{
 		Location loc = event.getEntity().getLocation();
-		if (loc == null) return;
-	
+
 		World world = loc.getWorld();
 		if (world == null) return;
 		BorderData border = Config.Border(world.getName());

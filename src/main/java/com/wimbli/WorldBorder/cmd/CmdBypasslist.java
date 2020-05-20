@@ -29,7 +29,7 @@ public class CmdBypasslist extends WBCmd
 	public void execute(final CommandSender sender, Player player, List<String> params, String worldName)
 	{
 		final ArrayList<UUID> uuids = Config.getPlayerBypassList();
-		if (uuids == null || uuids.isEmpty())
+		if (uuids.isEmpty())
 		{
 			sender.sendMessage("Players with border bypass enabled: <none>");
 			return;
@@ -50,7 +50,6 @@ public class CmdBypasslist extends WBCmd
 				catch(Exception ex)
 				{
 					sendErrorAndHelp(sender, "Failed to look up names for the UUIDs in the border bypass list. " + ex.getLocalizedMessage());
-					return;
 				}
 			}
 		});

@@ -9,9 +9,9 @@ import org.bukkit.World;
  */
 public class WorldBorderFillFinishedEvent extends Event
 {
+	private final World world;
+	private final long totalChunks;
 	private static final HandlerList handlers = new HandlerList();
-	private World world;
-	private long totalChunks;
 
 	public WorldBorderFillFinishedEvent(World world, long totalChunks)
 	{

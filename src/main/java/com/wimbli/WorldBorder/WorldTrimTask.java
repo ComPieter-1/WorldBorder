@@ -19,31 +19,31 @@ import com.wimbli.WorldBorder.Events.WorldBorderTrimStartEvent;
 public class WorldTrimTask implements Runnable
 {
 	// general task-related reference data
-	private transient Server server = null;
-	private transient World world = null;
-	private transient WorldFileData worldData = null;
+	private final transient Player notifyPlayer;
+	private final transient World world;
+	private final transient int chunksPerRun;
 	private transient BorderData border = null;
-	private transient boolean readyToGo = false;
+	private transient Server server;
+	private transient WorldFileData worldData = null;
 	private transient boolean paused = false;
+	private transient boolean readyToGo = false;
 	private transient int taskID = -1;
-	private transient Player notifyPlayer = null;
-	private transient int chunksPerRun = 1;
 	
 	// values for what chunk in the current region we're at
+	private transient List<CoordXZ> regionChunks = new ArrayList<>(1024);
+	private transient List<CoordXZ> trimChunks = new ArrayList<>(1024);
+	private transient int counter = 0;
+	private transient int currentChunk = 0;  // chunk we've reached in the current region (regionChunks)
 	private transient int currentRegion = -1;  // region(file) we're at in regionFiles
 	private transient int regionX = 0;  // X location value of the current region
 	private transient int regionZ = 0;  // X location value of the current region
-	private transient int currentChunk = 0;  // chunk we've reached in the current region (regionChunks)
-	private transient List<CoordXZ> regionChunks = new ArrayList<CoordXZ>(1024);
-	private transient List<CoordXZ> trimChunks = new ArrayList<CoordXZ>(1024);
-	private transient int counter = 0;
 
 	// for reporting progress back to user occasionally
-	private transient long lastReport = Config.Now();
 	private transient int reportTarget = 0;
 	private transient int reportTotal = 0;
-	private transient int reportTrimmedRegions = 0;
 	private transient int reportTrimmedChunks = 0;
+	private transient int reportTrimmedRegions = 0;
+	private transient long lastReport = Config.Now();
 
 
 	public WorldTrimTask(Server theServer, Player player, String worldName, int trimDistance, int chunksPerRun)
@@ -192,8 +192,8 @@ public class WorldTrimTask implements Runnable
 		reportTotal = currentRegion * 3072;
 		currentRegion++;
 		regionX = regionZ = currentChunk = 0;
-		regionChunks = new ArrayList<CoordXZ>(1024);
-		trimChunks = new ArrayList<CoordXZ>(1024);
+		regionChunks = new ArrayList<>(1024);
+		trimChunks = new ArrayList<>(1024);
 
 		// have we already handled all region files?
 		if (currentRegion >= worldData.regionFileCount())

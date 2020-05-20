@@ -160,7 +160,7 @@ public class BorderData
 	@Override
 	public String toString()
 	{
-		return "radius " + ((radiusX == radiusZ) ? radiusX : radiusX + "x" + radiusZ) + " at X: " + Config.coord.format(x) + " Z: " + Config.coord.format(z) + (shapeRound != null ? (" (shape override: " + Config.ShapeName(shapeRound.booleanValue()) + ")") : "") + (wrapping ? (" (wrapping)") : "");
+		return "radius " + ((radiusX == radiusZ) ? radiusX : radiusX + "x" + radiusZ) + " at X: " + Config.coord.format(x) + " Z: " + Config.coord.format(z) + (shapeRound != null ? (" (shape override: " + Config.ShapeName(shapeRound) + ")") : "") + (wrapping ? (" (wrapping)") : "");
 	}
 
 	// This algorithm of course needs to be fast, since it will be run very frequently
@@ -168,7 +168,7 @@ public class BorderData
 	{
 		// if this border has a shape override set, use it
 		if (shapeRound != null)
-			round = shapeRound.booleanValue();
+			round = shapeRound;
 
 		// square border
 		if (!round)
@@ -212,7 +212,7 @@ public class BorderData
 	{
 		// if this border has a shape override set, use it
 		if (shapeRound != null)
-			round = shapeRound.booleanValue();
+			round = shapeRound;
 
 		double xLoc = loc.getX();
 		double zLoc = loc.getZ();
@@ -389,7 +389,7 @@ public class BorderData
 			safeOpenBlocks.add(Material.SPRUCE_SIGN);
 			safeOpenBlocks.add(Material.SPRUCE_WALL_SIGN);
 		}
-		catch (NoSuchFieldError ex) {}
+		catch (NoSuchFieldError ignored) {}
 	}
 
 	//these material IDs are ones we don't want to drop the player onto, like cactus or lava or fire or activated Ender portal
@@ -417,10 +417,8 @@ public class BorderData
 			return safe;
 
 		Material below = world.getBlockAt(X, Y - 1, Z).getType();
-		return (safe
-			 && (!safeOpenBlocks.contains(below) || below == Material.WATER)	// below target block not open/breathable (so presumably solid), or is water
-			 && !painfulBlocks.contains(below)									// below target block not painful
-			);
+		// Below target block not open/breathable (so presumably solid), or is water. || Below target block not painful
+		return (!safeOpenBlocks.contains(below) || below == Material.WATER) && !painfulBlocks.contains(below);
 	}
 
 	private static final int limBot = 0;
@@ -436,7 +434,7 @@ public class BorderData
 
 		// if Y is larger than the world can be and user can fly, return Y - Unless we are in the Nether, we might not want players on the roof
 		if (flying && Y > limTop && !isNether)
-			return (double) Y;
+			return Y;
 
 		// make sure Y values are within the boundaries of the world.
 		if (Y > limTop)
@@ -445,10 +443,7 @@ public class BorderData
 				Y = limTop; // because of the roof, the nether can not rely on highestBlockBoundary, so limTop has to be used
 			else
 			{
-				if (flying)
-					Y = limTop;
-				else
-					Y = highestBlockBoundary; // there will never be a save block to stand on for Y values > highestBlockBoundary
+				Y = highestBlockBoundary; // there will never be a save block to stand on for Y values > highestBlockBoundary
 			}
 		}
 		if (Y < limBot)
@@ -465,14 +460,14 @@ public class BorderData
 			if(y1 > limBot)
 			{
 				if (isSafeSpot(world, X, y1, Z, flying))
-					return (double)y1;
+					return y1;
 			}
 
 			// Look above.
 			if(y2 <= limTop && y2 != y1)
 			{
 				if (isSafeSpot(world, X, y2, Z, flying))
-					return (double)y2;
+					return y2;
 			}
 		}
 

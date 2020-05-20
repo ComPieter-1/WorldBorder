@@ -11,8 +11,8 @@ import com.wimbli.WorldBorder.WorldFillTask;
  */
 public class WorldBorderFillStartEvent extends Event
 {
+	private final WorldFillTask fillTask;
 	private static final HandlerList handlers = new HandlerList();
-	private WorldFillTask fillTask;
 
 	public WorldBorderFillStartEvent(WorldFillTask worldFillTask)
 	{

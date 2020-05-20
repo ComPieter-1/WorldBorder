@@ -58,12 +58,12 @@ public abstract class WBCmd
 
 	// list of command examples for this command to be displayed as usage reference, separate between players and console
 	// ... these generally should be set indirectly using addCmdExample() within the constructor for each command class
-	public List<String> cmdExamplePlayer = new ArrayList<String>();
-	public List<String> cmdExampleConsole = new ArrayList<String>();
+	public List<String> cmdExamplePlayer = new ArrayList<>();
+	public List<String> cmdExampleConsole = new ArrayList<>();
 
 	// much like the above, but used for displaying command list from root /wb command, listing all commands
-	public final static List<String> cmdExamplesConsole = new ArrayList<String>(48);  // 48 command capacity, 6 full pages
-	public final static List<String> cmdExamplesPlayer = new ArrayList<String>(48);   // still, could need to increase later
+	public final static List<String> cmdExamplesConsole = new ArrayList<>(48);  // 48 command capacity, 6 full pages
+	public final static List<String> cmdExamplesPlayer = new ArrayList<>(48);   // still, could need to increase later
 
 	
 	// add command examples for use the default "/wb" command list and for internal usage reference, formatted and colorized

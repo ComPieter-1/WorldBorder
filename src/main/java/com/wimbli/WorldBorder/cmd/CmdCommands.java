@@ -10,7 +10,6 @@ import com.wimbli.WorldBorder.*;
 
 public class CmdCommands extends WBCmd
 {
-	private static int pageSize = 8;  // examples to list per page; 10 lines available, 1 for header, 1 for footer
 
 	public CmdCommands()
 	{
@@ -35,6 +34,9 @@ public class CmdCommands extends WBCmd
 
 		// see whether we're showing examples to player or to console, and determine number of pages available
 		List<String> examples = (player == null) ? cmdExamplesConsole : cmdExamplesPlayer;
+
+		// examples to list per page; 10 lines available, 1 for header, 1 for footer
+		int pageSize = 8;
 		int pageCount = (int) Math.ceil(examples.size() / (double) pageSize);
 
 		// if specified page number is negative or higher than we have available, default back to first page
@@ -58,7 +60,7 @@ public class CmdCommands extends WBCmd
 			// send page footer, if relevant; manual spacing to get right side lined up near edge is crude, but sufficient
 			String footer = C_HEAD + " (Page " + page + "/" + pageCount + ")              " + cmd(sender);
 			if (page < pageCount)
-				sender.sendMessage(footer + Integer.toString(page + 1) + C_DESC + " - view next page of commands.");
+				sender.sendMessage(footer + (page + 1) + C_DESC + " - view next page of commands.");
 			else if (page > 1)
 				sender.sendMessage(footer + C_DESC + "- view first page of commands.");
 		}
