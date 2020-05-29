@@ -156,7 +156,8 @@ public class WorldTrimTask implements Runnable
 				else
 				{
 					// if DynMap is installed, re-render the trimmed region ... disabled since it's not currently working, oh well
-//					DynMapFeatures.renderRegion(world.getName(), new CoordXZ(regionX, regionZ));
+
+					// DynMapFeatures.renderRegion(world.getName(), new CoordXZ(regionX, regionZ));
 				}
 
 				nextFile();
@@ -295,7 +296,7 @@ public class WorldTrimTask implements Runnable
 		// since our stored chunk positions are based on world, we need to offset those to positions in the region file
 		int offsetX = CoordXZ.regionToChunk(regionX);
 		int offsetZ = CoordXZ.regionToChunk(regionZ);
-		long wipePos = 0;
+		long wipePos;
 		int chunkCount = 0;
 
 		try
