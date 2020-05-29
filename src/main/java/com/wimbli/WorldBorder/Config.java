@@ -25,7 +25,7 @@ import org.bukkit.World;
 
 public class Config
 {
-	// private stuff used within this class
+	// Private stuff used within this class
 	private static WorldBorder plugin;
 	private static FileConfiguration cfg = null;
 	private static Logger wbLog = null;
@@ -33,12 +33,12 @@ public class Config
 	private static int borderTask = -1;
 	public static volatile WorldFillTask fillTask = null;
 	public static volatile WorldTrimTask trimTask = null;
-	private static Runtime rt = Runtime.getRuntime();
+	private static final Runtime rt = Runtime.getRuntime();
 
-	// actual configuration values which can be changed
+	// Actual configuration values which can be changed
 	private static boolean shapeRound = true;
-	private static Map<String, BorderData> borders = Collections.synchronizedMap(new LinkedHashMap<String, BorderData>());
-	private static Set<UUID> bypassPlayers = Collections.synchronizedSet(new LinkedHashSet<UUID>());
+	private static final Map<String, BorderData> borders = Collections.synchronizedMap(new LinkedHashMap<>());
+	private static final Set<UUID> bypassPlayers = Collections.synchronizedSet(new LinkedHashSet<>());
 	private static String message;		// raw message without color code formatting
 	private static String messageFmt;	// message with color code formatting ("&" changed to funky sort-of-double-dollar-sign for legitimate color/formatting codes)
 	private static String messageClean;	// message cleaned of formatting codes
@@ -450,7 +450,7 @@ public class Config
 	}
 	private static ArrayList<String> exportBypassStringList()
 	{
-		ArrayList<String> strings = new ArrayList<String>();
+		ArrayList<String> strings = new ArrayList<>();
 		for (UUID uuid: bypassPlayers)
 		{
 			strings.add(uuid.toString());
@@ -636,7 +636,7 @@ public class Config
 			return;
 		}
 		// if loading older config which didn't support color codes in border message, make sure default red color code is added at start of it
-		else if (cfgVersion < 8 && !(msg.substring(0, 1).equals("&")))
+		else if (cfgVersion < 8 && !(msg.startsWith("&")))
 			updateMessage("&c" + msg);
 		// otherwise just set border message
 		else
@@ -663,19 +663,21 @@ public class Config
 				if (cfgVersion > 3)
 					worldName = worldName.replace("<", ".");
 
-				// backwards compatibility for config from before elliptical/rectangular borders were supported
-				if (bord.isSet("radius") && !bord.isSet("radiusX"))
-				{
-					int radius = bord.getInt("radius");
-					bord.set("radiusX", radius);
-					bord.set("radiusZ", radius);
-				}
+				if (bord != null) {
+					// backwards compatibility for config from before elliptical/rectangular borders were supported
+					if (bord.isSet("radius") && !bord.isSet("radiusX"))
+					{
+						int radius = bord.getInt("radius");
+						bord.set("radiusX", radius);
+						bord.set("radiusZ", radius);
+					}
 
-				Boolean overrideShape = (Boolean) bord.get("shape-round");
-				boolean wrap = bord.getBoolean("wrapping", false);
-				BorderData border = new BorderData(bord.getDouble("x", 0), bord.getDouble("z", 0), bord.getInt("radiusX", 0), bord.getInt("radiusZ", 0), overrideShape, wrap);
-				borders.put(worldName, border);
-				logConfig(BorderDescription(worldName));
+					Boolean overrideShape = (Boolean) bord.get("shape-round");
+					boolean wrap = bord.getBoolean("wrapping", false);
+					BorderData border = new BorderData(bord.getDouble("x", 0), bord.getDouble("z", 0), bord.getInt("radiusX", 0), bord.getInt("radiusZ", 0), overrideShape, wrap);
+					borders.put(worldName, border);
+					logConfig(BorderDescription(worldName));
+				}
 			}
 		}
 
