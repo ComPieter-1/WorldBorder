@@ -22,11 +22,11 @@ import javax.imageio.*;
 
 public class WorldFileData
 {
-	private transient World world;
+	private final transient World world;
 	private transient File regionFolder = null;
 	private transient File[] regionFiles = null;
 	private transient Player notifyPlayer = null;
-	private transient Map<CoordXZ, List<Boolean>> regionChunkExistence = Collections.synchronizedMap(new HashMap<CoordXZ, List<Boolean>>());
+	private final transient Map<CoordXZ, List<Boolean>> regionChunkExistence = Collections.synchronizedMap(new HashMap<>());
 
 	// Use this static method to create a new instance of this class. If null is returned, there was a problem so any process relying on this should be cancelled.
 	public static WorldFileData create(World world, Player notifyPlayer)
@@ -179,7 +179,7 @@ public class WorldFileData
 			return data;
 
 		// data for the specified region isn't loaded yet, so init it as empty and try to find the file and load the data
-		data = new ArrayList<Boolean>(1024);
+		data = new ArrayList<>(1024);
 		for (int i = 0; i < 1024; i++)
 		{
 			data.add(Boolean.FALSE);
@@ -293,7 +293,7 @@ public class WorldFileData
 		{
 			for (int z = 0; z < 32; z++)
 			{
-				if (data.get(current).booleanValue())
+				if (data.get(current))
 					g2.fillRect(x,z, x+1, z+1);
 				current++;
 			}

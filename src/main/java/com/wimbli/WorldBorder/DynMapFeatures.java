@@ -21,9 +21,6 @@ public class DynMapFeatures
 	private static DynmapAPI api;
 	private static MarkerAPI markApi;
 	private static MarkerSet markSet;
-	private static int lineWeight = 3;
-	private static double lineOpacity = 1.0;
-	private static int lineColor = 0xFF0000;
 
 	// Whether re-rendering functionality is available
 	public static boolean renderEnabled()
@@ -185,7 +182,7 @@ public class DynMapFeatures
 		if (marker == null)
 		{
 			marker = markSet.createCircleMarker("worldborder_"+worldName, Config.DynmapMessage(), false, worldName, border.getX(), y, border.getZ(), border.getRadiusX(), border.getRadiusZ(), true);
-			marker.setLineStyle(lineWeight, lineOpacity, lineColor);
+			marker.setLineStyle(3, 1.0, 0xFF0000);
 			marker.setFillStyle(0.0, 0x000000);
 			roundBorders.put(worldName, marker);
 		}

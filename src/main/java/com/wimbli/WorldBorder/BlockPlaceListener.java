@@ -15,8 +15,7 @@ public class BlockPlaceListener implements Listener
 	public void onBlockPlace(BlockPlaceEvent event)
 	{
 		Location loc = event.getBlockPlaced().getLocation();
-		if (loc == null) return;
-	
+
 		World world = loc.getWorld();
 		if (world == null) return;
 		BorderData border = Config.Border(world.getName());

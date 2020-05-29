@@ -45,56 +45,51 @@ public class CmdBypass extends WBCmd
 			return;
 		}
 
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(WorldBorder.plugin, new Runnable()
-		{
-			@Override
-			public void run()
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(WorldBorder.plugin, () -> {
+			final String sPlayer = (params.isEmpty()) ? player.getName() : params.get(0);
+			UUID uPlayer = (params.isEmpty()) ? player.getUniqueId() : null;
+
+			if (uPlayer == null)
 			{
-				final String sPlayer = (params.isEmpty()) ? player.getName() : params.get(0);
-				UUID uPlayer = (params.isEmpty()) ? player.getUniqueId() : null;
-
-				if (uPlayer == null)
+				Player p = Bukkit.getPlayer(sPlayer);
+				if (p != null)
 				{
-					Player p = Bukkit.getPlayer(sPlayer);
-					if (p != null)
+					uPlayer = p.getUniqueId();
+				}
+				else
+				{
+					// only do UUID lookup using Mojang server if specified player isn't online
+					try
 					{
-						uPlayer = p.getUniqueId();
+						uPlayer = UUIDFetcher.getUUID(sPlayer);
 					}
-					else
+					catch(Exception ex)
 					{
-						// only do UUID lookup using Mojang server if specified player isn't online
-						try
-						{
-							uPlayer = UUIDFetcher.getUUID(sPlayer);
-						}
-						catch(Exception ex)
-						{
-							sendErrorAndHelp(sender, "Failed to look up UUID for the player name you specified. " + ex.getLocalizedMessage());
-							return;
-						}
+						sendErrorAndHelp(sender, "Failed to look up UUID for the player name you specified. " + ex.getLocalizedMessage());
+						return;
 					}
 				}
-				if (uPlayer == null)
-				{
-					sendErrorAndHelp(sender, "Failed to look up UUID for the player name you specified; null value returned.");
-					return;
-				}
-
-				boolean bypassing = !Config.isPlayerBypassing(uPlayer);
-				if (params.size() > 1)
-					bypassing = strAsBool(params.get(1));
-
-				Config.setPlayerBypass(uPlayer, bypassing);
-
-				Player target = Bukkit.getPlayer(sPlayer);
-				if (target != null && target.isOnline())
-					target.sendMessage("Border bypass is now " + enabledColored(bypassing) + ".");
-
-				Config.log("Border bypass for player \"" + sPlayer + "\" is " + (bypassing ? "enabled" : "disabled") +
-						   (player != null ? " at the command of player \"" + player.getName() + "\"" : "") + ".");
-				if (player != null && player != target)
-					sender.sendMessage("Border bypass for player \"" + sPlayer + "\" is " + enabledColored(bypassing) + ".");
 			}
+			if (uPlayer == null)
+			{
+				sendErrorAndHelp(sender, "Failed to look up UUID for the player name you specified; null value returned.");
+				return;
+			}
+
+			boolean bypassing = !Config.isPlayerBypassing(uPlayer);
+			if (params.size() > 1)
+				bypassing = strAsBool(params.get(1));
+
+			Config.setPlayerBypass(uPlayer, bypassing);
+
+			Player target = Bukkit.getPlayer(sPlayer);
+			if (target != null && target.isOnline())
+				target.sendMessage("Border bypass is now " + enabledColored(bypassing) + ".");
+
+			Config.log("Border bypass for player \"" + sPlayer + "\" is " + (bypassing ? "enabled" : "disabled") +
+					   (player != null ? " at the command of player \"" + player.getName() + "\"" : "") + ".");
+			if (player != null && player != target)
+				sender.sendMessage("Border bypass for player \"" + sPlayer + "\" is " + enabledColored(bypassing) + ".");
 		});
 	}
 }

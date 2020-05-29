@@ -11,8 +11,8 @@ import com.wimbli.WorldBorder.WorldTrimTask;
  */
 public class WorldBorderTrimStartEvent extends Event
 {
+	private final WorldTrimTask trimTask;
 	private static final HandlerList handlers = new HandlerList();
-	private WorldTrimTask trimTask;
 
 	public WorldBorderTrimStartEvent(WorldTrimTask trimTask)
 	{

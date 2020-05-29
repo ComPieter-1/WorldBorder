@@ -29,15 +29,15 @@ public class UUIDFetcher {
 	public static final long FEBRUARY_2015 = 1422748800000L;
 	
 	
-	private static Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
+	private static final Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 	
 	private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s?at=%d";
 	private static final String NAME_URL = "https://api.mojang.com/user/profiles/%s/names";
 
-	private static Map<String, UUID> uuidCache = new HashMap<String, UUID>();
-	private static Map<UUID, String> nameCache = new HashMap<UUID, String>();
+	private static final Map<String, UUID> uuidCache = new HashMap<>();
+	private static final Map<UUID, String> nameCache = new HashMap<>();
 
-	private static ExecutorService pool = Executors.newCachedThreadPool();
+	private static final ExecutorService pool = Executors.newCachedThreadPool();
 	
 	private String name;
 	private UUID id;

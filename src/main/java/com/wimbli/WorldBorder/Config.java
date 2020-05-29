@@ -112,8 +112,8 @@ public class Config
 	{
 		double radiusX = Math.abs(x1 - x2) / 2;
 		double radiusZ = Math.abs(z1 - z2) / 2;
-		double x = ((x1 < x2) ? x1 : x2) + radiusX;
-		double z = ((z1 < z2) ? z1 : z2) + radiusZ;
+		double x = (Math.min(x1, x2)) + radiusX;
+		double z = (Math.min(z1, z2)) + radiusZ;
 		setBorder(world, new BorderData(x, z, (int)Math.round(radiusX), (int)Math.round(radiusZ), shapeRound, wrap), true);
 	}
 	public static void setBorderCorners(String world, double x1, double z1, double x2, double z2, Boolean shapeRound)
@@ -156,7 +156,7 @@ public class Config
 
 	public static Set<String> BorderDescriptions()
 	{
-		Set<String> output = new HashSet<String>();
+		Set<String> output = new HashSet<>();
 
 		for(String worldName : borders.keySet())
 		{
@@ -173,7 +173,7 @@ public class Config
 
 	public static Map<String, BorderData> getBorders()
 	{
-		return new LinkedHashMap<String, BorderData>(borders);
+		return new LinkedHashMap<>(borders);
 	}
 
 	public static void setMessage(String msg)
@@ -256,6 +256,8 @@ public class Config
 			return;
 
 		World world = loc.getWorld();
+		if (world == null) return;
+
 		world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
 		world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
 		world.playEffect(loc, Effect.SMOKE, 4);

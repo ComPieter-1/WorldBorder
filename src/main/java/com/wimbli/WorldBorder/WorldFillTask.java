@@ -21,43 +21,43 @@ import com.wimbli.WorldBorder.Events.WorldBorderFillStartEvent;
 public class WorldFillTask implements Runnable
 {
 	// general task-related reference data
-	private transient Server server = null;
-	private transient World world = null;
+	private final transient Player notifyPlayer;
+	private final transient World world;
+	private final transient boolean forceLoad;
+	private final transient int chunksPerRun;
 	private transient BorderData border = null;
+	private transient Server server;
 	private transient WorldFileData worldData = null;
-	private transient boolean readyToGo = false;
+	private transient boolean continueNotice = false;
 	private transient boolean paused = false;
 	private transient boolean pausedForMemory = false;
+	private transient boolean readyToGo = false;
 	private transient int taskID = -1;
-	private transient Player notifyPlayer = null;
-	private transient int chunksPerRun = 1;
-	private transient boolean continueNotice = false;
-	private transient boolean forceLoad = false;
 	
 	// these are only stored for saving task to config
-	private transient int fillDistance = 208;
-	private transient int tickFrequency = 1;
-	private transient int refX = 0, lastLegX = 0;
-	private transient int refZ = 0, lastLegZ = 0;
+	private final transient int fillDistance;
+	private final transient int tickFrequency;
 	private transient int refLength = -1;
 	private transient int refTotal = 0, lastLegTotal = 0;
+	private transient int refX = 0, lastLegX = 0;
+	private transient int refZ = 0, lastLegZ = 0;
 
 	// values for the spiral pattern check which fills out the map to the border
+	private final transient CoordXZ lastChunk = new CoordXZ(0, 0);
+	private transient boolean insideBorder = true;
+	private transient boolean isNeg = false;
+	private transient boolean isZLeg = false;
+	private transient int current = 0;
+	private transient int length = -1;
 	private transient int x = 0;
 	private transient int z = 0;
-	private transient boolean isZLeg = false;
-	private transient boolean isNeg = false;
-	private transient int length = -1;
-	private transient int current = 0;
-	private transient boolean insideBorder = true;
-	private transient CoordXZ lastChunk = new CoordXZ(0, 0);
 
 	// for reporting progress back to user occasionally
-	private transient long lastReport = Config.Now();
-	private transient long lastAutosave = Config.Now();
+	private transient int reportNum = 0;
 	private transient int reportTarget = 0;
 	private transient int reportTotal = 0;
-	private transient int reportNum = 0;
+	private transient long lastAutosave = Config.Now();
+	private transient long lastReport = Config.Now();
 	
 	// A map that holds to-be-loaded chunks, and their coordinates
 	private transient Map<CompletableFuture<Void>, CoordXZ> pendingChunks;
@@ -67,7 +67,7 @@ public class WorldFillTask implements Runnable
 	// several others.
 	private transient Set<UnloadDependency> preventUnload;
 	
-	private class UnloadDependency
+	private static class UnloadDependency
 	{
 		int neededX, neededZ;
 		int forX, forZ;
@@ -83,7 +83,7 @@ public class WorldFillTask implements Runnable
 		@Override
 		public boolean equals(Object other)
 		{
-			if (other == null || !(other instanceof UnloadDependency))
+			if (!(other instanceof UnloadDependency))
 				return false;
 
 			return this.neededX == ((UnloadDependency) other).neededX
@@ -150,7 +150,7 @@ public class WorldFillTask implements Runnable
 
 		int chunkWidthX = (int) Math.ceil((double)((border.getRadiusX() + 16) * 2) / 16);
 		int chunkWidthZ = (int) Math.ceil((double)((border.getRadiusZ() + 16) * 2) / 16);
-		int biggerWidth = (chunkWidthX > chunkWidthZ) ? chunkWidthX : chunkWidthZ; //We need to calculate the reportTarget with the bigger width, since the spiral will only stop if it has a size of biggerWidth x biggerWidth
+		int biggerWidth = Math.max(chunkWidthX, chunkWidthZ); //We need to calculate the reportTarget with the bigger width, since the spiral will only stop if it has a size of biggerWidth x biggerWidth
 		this.reportTarget = (biggerWidth * biggerWidth) + biggerWidth + 1;
 
 		//This would be another way to calculate reportTarget, it assumes that we don't need time to check if the chunk is outside and then skip it (it calculates the area of the rectangle/ellipse)
