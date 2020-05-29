@@ -167,28 +167,22 @@ public class BorderData
 	public boolean insideBorder(double xLoc, double zLoc, boolean round)
 	{
 		// if this border has a shape override set, use it
-		if (shapeRound != null)
-			round = shapeRound;
+		if (shapeRound != null) round = shapeRound;
 
 		// square border
-		if (!round)
-			return !(xLoc < minX || xLoc > maxX || zLoc < minZ || zLoc > maxZ);
+		if (!round) return !(xLoc < minX || xLoc > maxX || zLoc < minZ || zLoc > maxZ);
 
 		// round border
 		else
 		{
-			// elegant round border checking algorithm is from rBorder by Reil with almost no changes, all credit to him for it
+			// Elegant round border checking algorithm is from rBorder by Reil with almost no changes, all credit to him for it
 			double X = Math.abs(x - xLoc);
 			double Z = Math.abs(z - zLoc);
 
-			if (X < DefiniteRectangleX && Z < DefiniteRectangleZ)
-				return true;	// Definitely inside
-			else if (X >= radiusX || Z >= radiusZ)
-				return false;	// Definitely outside
-			else if (X * X + Z * Z * radiusSquaredQuotient < radiusXSquared)
-				return true;	// After further calculation, inside
+			if (X < DefiniteRectangleX && Z < DefiniteRectangleZ) return true;	// Definitely inside
 			else
-				return false;	// Apparently outside, then
+				if (X >= radiusX || Z >= radiusZ) return false;	// Definitely outside
+			else return X * X + Z * Z * radiusSquaredQuotient < radiusXSquared;	// After further calculation, inside or outside
 		}
 	}
 	public boolean insideBorder(double xLoc, double zLoc)
@@ -271,15 +265,17 @@ public class BorderData
 		int izLoc = Location.locToBlock(zLoc);
 
 		// Make sure the chunk we're checking in is actually loaded
-		Chunk tChunk = loc.getWorld().getChunkAt(CoordXZ.blockToChunk(ixLoc), CoordXZ.blockToChunk(izLoc));
-		if (!tChunk.isLoaded())
-			tChunk.load();
+		World world = loc.getWorld();
+		if (world != null) {
+			Chunk tChunk = world.getChunkAt(CoordXZ.blockToChunk(ixLoc), CoordXZ.blockToChunk(izLoc));
+			if (!tChunk.isLoaded()) tChunk.load();
 
-		yLoc = getSafeY(loc.getWorld(), ixLoc, Location.locToBlock(yLoc), izLoc, flying);
-		if (yLoc == -1)
-			return null;
+			yLoc = getSafeY(world, ixLoc, Location.locToBlock(yLoc), izLoc, flying);
+			if (yLoc == -1)
+				return null;
+		}
 
-		return new Location(loc.getWorld(), Math.floor(xLoc) + 0.5, yLoc, Math.floor(zLoc) + 0.5, loc.getYaw(), loc.getPitch());
+		return new Location(world, Math.floor(xLoc) + 0.5, yLoc, Math.floor(zLoc) + 0.5, loc.getYaw(), loc.getPitch());
 	}
 	public Location correctedPosition(Location loc, boolean round)
 	{
@@ -401,6 +397,14 @@ public class BorderData
 		painfulBlocks.add(Material.CACTUS);
 		painfulBlocks.add(Material.END_PORTAL);
 		painfulBlocks.add(Material.MAGMA_BLOCK);
+
+		//New ish blocks that cause damage
+		try {
+			painfulBlocks.add(Material.CAMPFIRE);
+			painfulBlocks.add(Material.SWEET_BERRY_BUSH);
+			painfulBlocks.add(Material.WITHER_ROSE);
+		} catch (NoSuchFieldError ignored) {}
+
 	}
 
 	// check if a particular spot consists of 2 breathable blocks over something relatively solid
@@ -446,8 +450,7 @@ public class BorderData
 				Y = highestBlockBoundary; // there will never be a save block to stand on for Y values > highestBlockBoundary
 			}
 		}
-		if (Y < limBot)
-			Y = limBot;
+		if (Y < limBot) Y = limBot;
 
 		// for non Nether worlds we don't need to check upwards to the world-limit, it is enough to check up to and including the highestBlockBoundary, unless player is flying
 		if (!isNether && !flying)
@@ -466,8 +469,7 @@ public class BorderData
 			// Look above.
 			if(y2 <= limTop && y2 != y1)
 			{
-				if (isSafeSpot(world, X, y2, Z, flying))
-					return y2;
+				if (isSafeSpot(world, X, y2, Z, flying)) return y2;
 			}
 		}
 
@@ -478,10 +480,8 @@ public class BorderData
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (this == obj)
-			return true;
-		else if (obj == null || obj.getClass() != this.getClass())
-			return false;
+		if (this == obj) return true;
+		else if (obj == null || obj.getClass() != this.getClass()) return false;
 
 		BorderData test = (BorderData)obj;
 		return test.x == this.x && test.z == this.z && test.radiusX == this.radiusX && test.radiusZ == this.radiusZ;
