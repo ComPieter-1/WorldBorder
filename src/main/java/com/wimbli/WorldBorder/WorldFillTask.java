@@ -243,7 +243,8 @@ public class WorldFillTask implements Runnable
 		// for one other chunk, so it might be in the unload set wrongly.
 		// The ChunkUnloadListener checks this anyway, but it doesn't hurt to
 		// save a few µs by not even requesting the unload.
-
+		
+		boolean isLowOnMemory = Config.AvailableMemoryTooLow();
 		for (CoordXZ unload : chunksToUnload)
 		{
 			if (!chunkOnUnloadPreventionList(unload.x, unload.z))
@@ -251,6 +252,9 @@ public class WorldFillTask implements Runnable
 				world.setChunkForceLoaded(unload.x, unload.z, false);
 				// this causes severe TPS loss by forcibly unloading chunks - instead, let server unload them naturally
 				//world.unloadChunkRequest(unload.x, unload.z);
+				if (isLowOnMemory){
+					world.unloadChunkRequest(unload.x, unload.z);
+				}
 			}
 		}
 
