@@ -26,8 +26,7 @@ public class CmdRadius extends WBCmd
 	@Override
 	public void execute(CommandSender sender, Player player, List<String> params, String worldName)
 	{
-		if (worldName == null)
-			worldName = player.getWorld().getName();
+		if (worldName == null) worldName = player.getWorld().getName();
 
 		BorderData border = Config.Border(worldName);
 		if (border == null)

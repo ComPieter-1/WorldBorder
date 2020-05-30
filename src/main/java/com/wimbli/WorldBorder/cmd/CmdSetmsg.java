@@ -35,8 +35,8 @@ public class CmdSetmsg extends WBCmd
 		boolean first = true;
 		for (String param : params)
 		{
-			if (!first)
-				message.append(" ");
+			if (!first) message.append(" ");
+
 			message.append(param);
 			first = false;
 		}

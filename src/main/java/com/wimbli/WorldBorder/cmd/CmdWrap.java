@@ -31,7 +31,7 @@ public class CmdWrap extends WBCmd
 			return;
 		}
 
-		boolean wrap = false;
+		boolean wrap;
 
 		// world and wrap on/off specified
 		if (params.size() == 2)
@@ -42,6 +42,7 @@ public class CmdWrap extends WBCmd
 		// no world specified, just wrap on/off
 		else
 		{
+			if (player == null) return;
 			worldName = player.getWorld().getName();
 			wrap = strAsBool(params.get(0));
 		}

@@ -33,7 +33,7 @@ public class CmdWshape extends WBCmd
 			return;
 		}
 
-		String shapeName = "";
+		String shapeName;
 
 		// world and shape specified
 		if (params.size() == 2)
@@ -44,6 +44,8 @@ public class CmdWshape extends WBCmd
 		// no world specified, just shape
 		else
 		{
+			if (player == null) return;
+
 			worldName = player.getWorld().getName();
 			shapeName = params.get(0).toLowerCase();
 		}

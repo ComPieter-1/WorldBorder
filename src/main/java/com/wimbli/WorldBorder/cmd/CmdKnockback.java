@@ -32,12 +32,11 @@ public class CmdKnockback extends WBCmd
 	@Override
 	public void execute(CommandSender sender, Player player, List<String> params, String worldName)
 	{
-		double numBlocks = 0.0;
+		double numBlocks;
 		try
 		{
 			numBlocks = Double.parseDouble(params.get(0));
-			if (numBlocks < 0.0 || (numBlocks > 0.0 && numBlocks < 1.0))
-				throw new NumberFormatException();
+			if (numBlocks < 0.0 || numBlocks > 0.0 && numBlocks < 1.0) throw new NumberFormatException();
 		}
 		catch(NumberFormatException ex)
 		{
@@ -47,7 +46,6 @@ public class CmdKnockback extends WBCmd
 
 		Config.setKnockBack(numBlocks);
 
-		if (player != null)
-			cmdStatus(sender);
+		if (player != null) cmdStatus(sender);
 	}
 }

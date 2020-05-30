@@ -29,8 +29,7 @@ public class CmdBypass extends WBCmd
 	@Override
 	public void cmdStatus(CommandSender sender)
 	{
-		if (!(sender instanceof Player))
-			return;
+		if (!(sender instanceof Player)) return;
 
 		boolean bypass = Config.isPlayerBypassing(((Player)sender).getUniqueId());
 		sender.sendMessage(C_HEAD + "Border bypass is currently " + enabledColored(bypass) + C_HEAD + " for you.");
@@ -42,6 +41,11 @@ public class CmdBypass extends WBCmd
 		if (player == null && params.isEmpty())
 		{
 			sendErrorAndHelp(sender, "When running this command from console, you must specify a player.");
+			return;
+		}
+
+		if (player == null) {
+			sendErrorAndHelp(sender, "Player cannot be null!");
 			return;
 		}
 
@@ -86,9 +90,8 @@ public class CmdBypass extends WBCmd
 			if (target != null && target.isOnline())
 				target.sendMessage("Border bypass is now " + enabledColored(bypassing) + ".");
 
-			Config.log("Border bypass for player \"" + sPlayer + "\" is " + (bypassing ? "enabled" : "disabled") +
-					   (player != null ? " at the command of player \"" + player.getName() + "\"" : "") + ".");
-			if (player != null && player != target)
+			Config.log("Border bypass for player \"" + sPlayer + "\" is " + (bypassing ? "enabled" : "disabled") + (" at the command of player \"" + player.getName() + "\"") + ".");
+			if (player != target)
 				sender.sendMessage("Border bypass for player \"" + sPlayer + "\" is " + enabledColored(bypassing) + ".");
 		});
 	}

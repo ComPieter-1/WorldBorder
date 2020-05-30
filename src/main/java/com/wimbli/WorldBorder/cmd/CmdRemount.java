@@ -38,7 +38,7 @@ public class CmdRemount extends WBCmd
 	@Override
 	public void execute(CommandSender sender, Player player, List<String> params, String worldName)
 	{
-		int delay = 0;
+		int delay;
 		try
 		{
 			delay = Integer.parseInt(params.get(0));

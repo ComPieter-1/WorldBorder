@@ -38,8 +38,8 @@ public class CmdClear extends WBCmd
 
 			Config.removeAllBorders();
 
-			if (player != null)
-				sender.sendMessage("All borders have been cleared for all worlds.");
+			if (player != null) sender.sendMessage("All borders have been cleared for all worlds.");
+
 			return;
 		}
 

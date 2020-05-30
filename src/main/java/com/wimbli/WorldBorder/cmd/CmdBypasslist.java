@@ -35,22 +35,17 @@ public class CmdBypasslist extends WBCmd
 			return;
 		}
 
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(WorldBorder.plugin, new Runnable()
-		{
-			@Override
-			public void run()
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(WorldBorder.plugin, () -> {
+			try
 			{
-				try
-				{
-					Map<UUID, String> names = UUIDFetcher.getNameList(uuids);
-					String nameString = names.values().toString();
+				Map<UUID, String> names = UUIDFetcher.getNameList(uuids);
+				String nameString = names.values().toString();
 
-					sender.sendMessage("Players with border bypass enabled: " + nameString.substring(1, nameString.length() - 1));
-				}
-				catch(Exception ex)
-				{
-					sendErrorAndHelp(sender, "Failed to look up names for the UUIDs in the border bypass list. " + ex.getLocalizedMessage());
-				}
+				sender.sendMessage("Players with border bypass enabled: " + nameString.substring(1, nameString.length() - 1));
+			}
+			catch(Exception ex)
+			{
+				sendErrorAndHelp(sender, "Failed to look up names for the UUIDs in the border bypass list. " + ex.getLocalizedMessage());
 			}
 		});
 	}
