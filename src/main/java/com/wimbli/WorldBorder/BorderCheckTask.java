@@ -161,17 +161,12 @@ public class BorderCheckTask implements Runnable
 
 	private static void setPassengerDelayed(final Entity vehicle, final Player player, final String playerName, long delay)
 	{
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(WorldBorder.plugin, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				handlingPlayers.remove(playerName.toLowerCase());
-				if (vehicle == null || player == null)
-					return;
+		Bukkit.getScheduler().scheduleSyncDelayedTask(WorldBorder.plugin, () -> {
+			handlingPlayers.remove(playerName.toLowerCase());
+			if (vehicle == null || player == null)
+				return;
 
-				vehicle.addPassenger(player);
-			}
+			vehicle.addPassenger(player);
 		}, delay);
 	}
 }
