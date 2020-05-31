@@ -29,9 +29,9 @@ public class DynMapFeatures
 	}
 
 	// Whether circular border markers are available
-	public static boolean borderEnabled()
+	public static boolean borderDisabled()
 	{
-		return markApi != null;
+		return markApi == null;
 	}
 
 	public static void setup()
@@ -122,12 +122,12 @@ public class DynMapFeatures
 	 * Methods for displaying our borders on DynMap's world maps
 	 */
 
-    private static Map<String, CircleMarker> roundBorders = new HashMap<String, CircleMarker>();
-    private static Map<String, AreaMarker> squareBorders = new HashMap<String, AreaMarker>();
+    private static final Map<String, CircleMarker> roundBorders = new HashMap<>();
+    private static final Map<String, AreaMarker> squareBorders = new HashMap<>();
 
 	public static void showAllBorders()
 	{
-		if (!borderEnabled()) return;
+		if (borderDisabled()) return;
 
 		// in case any borders are already shown
 		removeAllBorders();
@@ -160,7 +160,7 @@ public class DynMapFeatures
 
 	public static void showBorder(String worldName, BorderData border)
 	{
-		if (!borderEnabled()) return;
+		if (borderDisabled()) return;
 
 		if (!Config.DynmapBorderEnabled()) return;
 
@@ -218,7 +218,7 @@ public class DynMapFeatures
 
 	public static void removeAllBorders()
 	{
-		if (!borderEnabled()) return;
+		if (borderDisabled()) return;
 
 		for(CircleMarker marker : roundBorders.values())
 		{
@@ -235,7 +235,7 @@ public class DynMapFeatures
 
 	public static void removeBorder(String worldName)
 	{
-		if (!borderEnabled()) return;
+		if (borderDisabled()) return;
 
 		CircleMarker marker = roundBorders.remove(worldName);
 		if (marker != null)
