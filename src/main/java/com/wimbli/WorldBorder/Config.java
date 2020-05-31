@@ -491,10 +491,10 @@ public class Config
 			logConfig("Border-checking timed task stopped.");
 	}
 
-	public static void StopFillTask()
+	public static void StopFillTask(boolean SaveFill)
 	{
 		if (fillTask != null && fillTask.valid())
-			fillTask.cancel();
+			fillTask.cancel(SaveFill);
 	}
 
 	public static void StoreFillTask()
@@ -686,16 +686,15 @@ public class Config
 		if (storedFillTask != null)
 		{
 			String worldName = storedFillTask.getString("world");
-			int fillDistance = storedFillTask.getInt("fillDistance", 176);
-			int chunksPerRun = storedFillTask.getInt("chunksPerRun", 5);
-			int tickFrequency = storedFillTask.getInt("tickFrequency", 20);
+			int fillDistance = storedFillTask.getInt("fillDistance", 208);
+			int chunksPerRun = storedFillTask.getInt("chunksPerRun", 1);
+			int tickFrequency = storedFillTask.getInt("tickFrequency", 1);
 			int fillX = storedFillTask.getInt("x", 0);
 			int fillZ = storedFillTask.getInt("z", 0);
 			int fillLength = storedFillTask.getInt("length", 0);
 			int fillTotal = storedFillTask.getInt("total", 0);
 			boolean forceLoad = storedFillTask.getBoolean("forceLoad", false);
 			RestoreFillTask(worldName, fillDistance, chunksPerRun, tickFrequency, fillX, fillZ, fillLength, fillTotal, forceLoad);
-			save(false);
 		}
 
 		if (logIt)
