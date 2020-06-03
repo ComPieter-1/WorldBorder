@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wimbli.WorldBorder</groupId>
 	<artifactId>WorldBorder</artifactId>
-	<version>1.10.0 (beta)</version>
+	<version>1.10.1</version>
 	<name>WorldBorder</name>
-	<url>https://github.com/Brettflan/WorldBorder</url>
+	<url>https://github.com/TheCompieter/WorldBorder</url>
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/Brettflan/WorldBorder/issues</url>
+		<url>https://github.com/TheCompieter/WorldBorder/issues</url>
 	</issueManagement>
 
 	<properties>
