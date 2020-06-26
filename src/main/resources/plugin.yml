@@ -1,10 +1,10 @@
-name: WorldBorder
+name: ${project.name}
 authors:
   - Brettflan
   - FaberoM
   - TheCompieter
 description: Efficient, feature-rich plugin for limiting the size of your worlds.
-version: 1.10.2-SNAPSHOT
+version: ${project.version}
 api-version: "1.15"
 main: com.wimbli.WorldBorder.WorldBorder
 softdepend:
