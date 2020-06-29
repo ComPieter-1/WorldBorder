@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wimbli.WorldBorder</groupId>
 	<artifactId>WorldBorder</artifactId>
-	<version>1.10.2</version>
+	<version>1.10.3-SNAPSHOT</version>
 	<name>WorldBorder</name>
 	<url>https://github.com/TheCompieter/WorldBorder</url>
 	<issueManagement>
