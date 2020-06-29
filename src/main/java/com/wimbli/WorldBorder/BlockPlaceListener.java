@@ -23,8 +23,10 @@ public class BlockPlaceListener implements Listener
 		if (border == null) return;
 
 		Player p = event.getPlayer();
-		if (p.hasPermission("worldborder.bypassplacement")) {
-			return;
+		if (p != null) {
+			if (p.hasPermission("worldborder.bypassplacement")) {
+				return;
+			}
 		}
 
 		if (!border.insideBorder(loc.getX(), loc.getZ(), Config.ShapeRound())) 
