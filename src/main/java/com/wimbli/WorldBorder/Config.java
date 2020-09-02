@@ -597,7 +597,7 @@ public class Config
 		int cfgVersion = cfg.getInt("cfg-version", currentCfgVersion);
 
 		String msg = cfg.getString("message");
-		shapeRound = cfg.getBoolean("round-border", true);
+		shapeRound = cfg.getBoolean("round-border", false);
 		DEBUG = cfg.getBoolean("debug-mode", false);
 		whooshEffect = cfg.getBoolean("whoosh-effect", true);
 		portalRedirection = cfg.getBoolean("portal-redirection", true);
