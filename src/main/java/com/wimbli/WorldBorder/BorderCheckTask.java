@@ -1,21 +1,16 @@
 package com.wimbli.WorldBorder;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableList;
-
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.Location;
 import org.bukkit.util.Vector;
-import org.bukkit.World;
+
+import java.util.*;
 
 
 public class BorderCheckTask implements Runnable
@@ -111,7 +106,7 @@ public class BorderCheckTask implements Runnable
 		// give some particle and sound effects where the player was beyond the border, if "whoosh effect" is enabled
 		Config.showWhooshEffect(loc);
 
-		if (!returnLocationOnly)
+		if (!returnLocationOnly && newLoc != null)
 			player.teleport(newLoc, TeleportCause.PLUGIN);
 
 		if (!handlingVehicle)
@@ -141,7 +136,7 @@ public class BorderCheckTask implements Runnable
 		if (newLoc == null)
 		{
 			if (Config.Debug())
-				Config.logWarn("Target new location unviable, using spawn or killing player.");
+				Config.logWarn("Target new location unavailable, using spawn or killing player.");
 			if (Config.getIfPlayerKill())
 			{
 				player.setHealth(0.0D);
