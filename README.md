@@ -31,7 +31,7 @@ https://github.com/TheCompieter/WorldBorder/releases
 
 ## Can I use your code?
 
-The original project, and therefore this project, is licensed as [BSD 2-Clause "Simplified" License](https://github.com/Puremin0rez/WorldBorder/blob/master/LICENSE)
+The original project, and therefore this project, is licensed as [BSD 2-Clause "Simplified" License](https://github.com/TheCompieter/WorldBorder/blob/master/LICENSE)
 
 ## Acknowledgements
 
