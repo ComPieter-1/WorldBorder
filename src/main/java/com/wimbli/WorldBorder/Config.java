@@ -1,26 +1,18 @@
 package com.wimbli.WorldBorder;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Config
@@ -595,6 +587,9 @@ public class Config
 	{	// load config from file
 		plugin = master;
 		wbLog = plugin.getLogger();
+
+		// inform the user they're using our fork and to not bother upstream with their support
+		log(Level.WARNING, "This is a continuation by TheCompieter. Do not seek support from the original author!");
 
 		plugin.reloadConfig();
 		cfg = plugin.getConfig();
