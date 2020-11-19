@@ -5,7 +5,7 @@
 
 	<groupId>com.wimbli.WorldBorder</groupId>
 	<artifactId>WorldBorder</artifactId>
-	<version>1.10.3</version>
+	<version>1.10.4-SNAPSHOT</version>
 	<name>WorldBorder</name>
 	<url>https://github.com/TheCompieter/WorldBorder</url>
 	<issueManagement>
