@@ -6,6 +6,8 @@ api-version: "1.13"
 main: "${project.groupId}.${project.artifactId}"
 softdepend:
   - dynmap
+  - Multiverse-Core
+  - Hyperverse
 commands:
   wborder:
     description: Primary command for WorldBorder.
