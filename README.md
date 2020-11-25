@@ -1,6 +1,6 @@
 # WorldBorder
 
-**Compatible with Minecraft 1.13+ (Tested on Minecraft 1.16.2)**
+**Compatible with Minecraft 1.13+ (Tested on Minecraft 1.16.4)**
 
 This is a continuation / maintained version of the original plugin created by BrettFlan.
 
@@ -13,6 +13,7 @@ This is a list of everything that has been altered from the original from a user
 * The world generation fill speed has been significantly increased (at the cost of more memory usage)
 * Improvements have been made to better preserving fill progress between restarts / crashes
 * Fixes involving height issues and teleports for border checking tasks
+* Auto resume for the world generation fill task will now work properly with worlds loaded by [Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/) & [Hyperverse](https://www.spigotmc.org/resources/hyperverse-w-i-p.77550/)
 
 This project is a direct drop in replacement for the original. You can upgrade without any loss or worries.
 
