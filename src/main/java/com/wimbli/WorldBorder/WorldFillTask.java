@@ -207,7 +207,7 @@ public class WorldFillTask implements Runnable
 		// First, Check which chunk generations have been finished.
 		// Mark those chunks as existing and unloadable, and remove
 		// them from the pending set.
-		int chunksProcessedLastTick = 0;
+		int chunksProcessedLastTick = 1;
 		Map<CompletableFuture<Void>, CoordXZ> newPendingChunks = new HashMap<>();
 		Set<CoordXZ> chunksToUnload = new HashSet<>();
 		for (CompletableFuture<Void> cf : pendingChunks.keySet())
@@ -459,6 +459,7 @@ public class WorldFillTask implements Runnable
 			preventUnload = null;
 			for (UnloadDependency entry: tempPreventUnload)
 			{
+				world.unloadChunkRequest(lastChunk.x, lastChunk.z);
 				world.setChunkForceLoaded(entry.neededX, entry.neededZ, false);
 				world.unloadChunkRequest(entry.neededX, entry.neededZ);
 			}
@@ -641,17 +642,12 @@ public class WorldFillTask implements Runnable
 		return reportTarget;
 	}
 
-	private CompletableFuture<Void> getPaperLibChunk(World world, int x, int z, boolean gen)
-	{
-		return PaperLib.getChunkAtAsync(world, x, z, gen).thenAccept( (Chunk chunk) ->
-			{
-				if (chunk != null)
-				{
-					// toggle "force loaded" flag on for chunk to prevent it from being unloaded while we need it
-					world.setChunkForceLoaded(x, z, true);
-
-					// alternatively for 1.14.4+
-					//world.addPluginChunkTicket(x, z, pluginInstance);
+	private CompletableFuture<Void> getPaperLibChunk(World world, int x, int z, boolean gen) {
+		return PaperLib.getChunkAtAsync(world, x, z, gen).thenAccept((Chunk chunk) ->
+		{
+			if (chunk != null) {
+				// toggle "force loaded" flag on for chunk to prevent it from being unloaded while we need it
+				world.setChunkForceLoaded(x, z, true);
 				}
 			});
 	}
