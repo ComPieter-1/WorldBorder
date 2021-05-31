@@ -1,5 +1,6 @@
 package com.wimbli.WorldBorder;
 
+import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +15,7 @@ public class WorldBorder extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
+		PaperLib.suggestPaper(this);
 		if (plugin == null)
 			plugin = this;
 		if (wbCommand == null)
