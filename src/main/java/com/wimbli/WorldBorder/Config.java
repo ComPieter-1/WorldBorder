@@ -589,7 +589,7 @@ public class Config
 		wbLog = plugin.getLogger();
 
 		// inform the user they're using our fork and to not bother upstream with their support
-		log(Level.WARNING, "This is a continuation by TheCompieter. Do not seek support from the original author!");
+		log(Level.WARNING, "This is a continuation by ComPieter-1. Do not seek support from the original author!");
 
 		plugin.reloadConfig();
 		cfg = plugin.getConfig();

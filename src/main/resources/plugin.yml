@@ -1,5 +1,5 @@
 name: "${project.artifactId}"
-authors: ["Brettflan", "FaberoM", "TheCompieter"]
+authors: ["Brettflan", "FaberoM", "ComPieter-1"]
 description: Efficient, feature-rich plugin for limiting and generating the size of your worlds.
 version: "${project.version}"
 api-version: "1.13"
